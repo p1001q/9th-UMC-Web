@@ -10,14 +10,15 @@ const LINKS = [
 
 export const Navbar = () => {
   return (
-    <div className='flex gap-3 p-4'>
+    <div className='flex gap-6 px-10 py-6 bg-black text-lg'>
+
       {LINKS.map(({ to, label }) => (
         <NavLink
           key={to}
           to={to}
           className={({ isActive }) =>
-            isActive ? 'text-[#b2dab1] font-bold' : 'text-gray-500'
-          }
+            isActive ? 'text-red-500 font-bold' : 'text-gray-300 hover:text-red-300'
+        }
         >
           {label}
         </NavLink>
