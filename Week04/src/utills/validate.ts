@@ -26,7 +26,7 @@ function validateUser(values: UserSigninInformation) {
   return errors;
 }
 
-function validateSignin(values: UserSignInInformation) {
+function validateSignin(values: UserSigninInformation) {
     return validateUser(values);
 }
 export { validateSignin };
