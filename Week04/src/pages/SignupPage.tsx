@@ -48,7 +48,6 @@ const SignupPage = () => {
     const { passwordCheck, ...rest } = data; // passwordCheck 제외
     
     const response = await postSignup(rest);
-
     console.log(response);
   };
 
