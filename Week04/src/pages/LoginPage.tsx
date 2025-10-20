@@ -1,8 +1,12 @@
+import { postSignin } from "../apis/auth";
 import NavigationButtons from "../components/NavigationButtons";
+import { LOCAL_STORAGE_KEY } from "../constants/key";
 import useForm from "../hooks/useForm";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 import { type UserSigninInformation, validateSignin } from "../utills/validate";
 
 const LoginPage = () => {
+  const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken); //로컬스토리지 훅
 
   const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
     initialValue: {
@@ -12,8 +16,16 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         console.log(values);
+        try {
+          const response = await postSignin(values);
+          console.log(response);
+          //localStorage.setItem("accessToken", response.data.accessToken); >  훅으로 대체
+          setItem(response.data.accessToken);
+        } catch (error) {
+          alert(error?.message);
+        }
     };
     
     // 오류가 하나라도 있거나, 입력값이 비어있으면 버튼을 비활성화

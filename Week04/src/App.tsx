@@ -4,6 +4,7 @@ import HomeLayout from "./layouts/HomeLayout.tsx";
 import NotFoundPage from "./pages/NotFoundPage.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import SignupPage from "./pages/SignupPage.tsx";
+import MyPage from "./pages/MyPage.tsx";
 
 // 1. 라우터 생성
 // 2. 페이지 연결
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
+      { path: "my", element: <MyPage /> },
     ],
   },
 ]);
