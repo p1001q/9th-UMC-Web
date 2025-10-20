@@ -5,6 +5,7 @@ import { postSignup } from "../apis/auth";
 import { motion, AnimatePresence } from "framer-motion"; //애니메이션 라이브러리 pnpm add framer-motion
 import { useState } from "react";
 import axios from "axios";
+import NavigationButtons from "../components/NavigationButtons";
 
 //강사님 스타일: 스키마 객체 레벨에서 비번 일치 검증
 const schema = z
@@ -67,7 +68,9 @@ const SignupPage = () => {
   //유효성 조건
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email || "");
   const isPasswordValid =
-    password?.length >= 8 && password === passwordCheck;
+    password?.length >= 8 && 
+    password.length <= 20 && //길이 조건 추가
+    password === passwordCheck;
   const isNameValid = name.trim().length > 0;
 
   //회원가입 처리
@@ -94,6 +97,8 @@ const SignupPage = () => {
   //강사님처럼: form 없이, 버튼 onClick으로 handleSubmit 호출
   return (
     <div className="flex flex-col items-center justify-center h-full gap-4">
+      {/* ✅ 상단에 뒤로가기 버튼 추가 */}
+      <NavigationButtons backPath="/" /> {/* 홈으로 이동 */}
       <AnimatePresence mode="wait">
         {/* STEP 1 - 이메일 입력 */}
         {step === 1 && (

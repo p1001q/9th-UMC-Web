@@ -25,7 +25,7 @@ const HomePage = () => {
         </button>
 
         <button
-          onClick={() => navigate("/mypage")}
+          onClick={() => navigate("/my")}
           className="bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-md font-medium transition-colors"
         >
           마이페이지
