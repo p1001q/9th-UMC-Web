@@ -16,17 +16,22 @@ const LoginPage = () => {
     validate: validateSignin,
   });
 
-    const handleSubmit = async() => {
-        console.log(values);
-        try {
-          const response = await postSignin(values);
-          console.log(response);
-          //localStorage.setItem("accessToken", response.data.accessToken); >  훅으로 대체
-          setItem(response.data.accessToken);
-        } catch (error) {
-          alert(error?.message);
-        }
-    };
+const handleSubmit = async() => {
+  console.log(values);
+  try {
+    const response = await postSignin(values);
+    console.log(response);
+
+    // ✅ useLocalStorage 훅 대신 즉시 저장 >이러니까 마이 페이지에 정보 잘 보임...
+    localStorage.setItem(LOCAL_STORAGE_KEY.accessToken, response.data.accessToken);
+
+    // ✅ 저장 직후 마이페이지로 이동
+    window.location.href = "/my";
+  } catch (error) {
+    alert(error?.message);
+  }
+};
+
     
     // 오류가 하나라도 있거나, 입력값이 비어있으면 버튼을 비활성화
     const isDisabled =
