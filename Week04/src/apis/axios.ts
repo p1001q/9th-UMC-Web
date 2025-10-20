@@ -8,6 +8,7 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(LOCAL_STORAGE_KEY.accessToken);
+    console.log("🧩 Attached token:", token); // ✅ 이 줄 추가
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     } else {

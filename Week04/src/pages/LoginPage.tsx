@@ -21,12 +21,8 @@ const handleSubmit = async() => {
   try {
     const response = await postSignin(values);
     console.log(response);
-
-    // ✅ useLocalStorage 훅 대신 즉시 저장 >이러니까 마이 페이지에 정보 잘 보임...
-    localStorage.setItem(LOCAL_STORAGE_KEY.accessToken, response.data.accessToken);
-
-    // ✅ 저장 직후 마이페이지로 이동
-    window.location.href = "/my";
+    //localStorage.setItem("accessToken", response.data.accessToken); >  훅으로 대체
+    setItem(response.data.accessToken);
   } catch (error) {
     alert(error?.message);
   }
