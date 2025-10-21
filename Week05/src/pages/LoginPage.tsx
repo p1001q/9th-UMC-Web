@@ -1,12 +1,23 @@
-import { postSignin } from "../apis/auth";
+//import { postSignin } from "../apis/auth";
+import { useEffect } from "react";
 import NavigationButtons from "../components/NavigationButtons";
-import { LOCAL_STORAGE_KEY } from "../constants/key";
+import { useAuth } from "../context/AuthContext";
+//import { LOCAL_STORAGE_KEY } from "../constants/key";
 import useForm from "../hooks/useForm";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+//import { useLocalStorage } from "../hooks/useLocalStorage";
 import { type UserSigninInformation, validateSignin } from "../utills/validate";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
-  const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken); //로컬스토리지 훅
+  const {login, accessToken} = useAuth(); //컨텍스트 훅으로 변경
+  //const {setItem} = useLocalStorage(LOCAL_STORAGE_KEY.accessToken); //로컬스토리지 훅 제거
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken) {
+      navigate("/"); //이미 로그인된 상태면 마이페이지로 이동
+    }
+  }, [accessToken, navigate]);
 
   const {values, errors, touched, getInputProps} = useForm<UserSigninInformation>({
     initialValue: {
@@ -17,19 +28,12 @@ const LoginPage = () => {
   });
 
 const handleSubmit = async() => {
-  console.log(values);
   try {
-    const response = await postSignin(values);
-    console.log(response);
-    //localStorage.setItem("accessToken", response.data.accessToken); >  훅으로 대체
-    setItem(response.data.accessToken);
-  } catch (error: unknown) { //에러 안 뜨게 수정
-  if (error instanceof Error) {
-    alert(error.message);
-  } else {
-    alert("알 수 없는 오류가 발생했습니다.");
+      await login(values); //컨텍스트 훅으로 변경
+  //navigate("/my"); //로그인 성공 시 마이 페이지로 이동
+  } catch {
+    alert("로그인에 실패했습니다. 다시 시도해주세요.");
   }
-}
 };
 
     

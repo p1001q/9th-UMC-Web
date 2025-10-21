@@ -55,7 +55,7 @@ export interface SpokenLanguage {
 export interface MovieDetail {
   adult: boolean;
   backdrop_path: string | null;
-  belongs_to_collection: any | null;
+  belongs_to_collection: unknown | null;
   budget: number;
   genres: Genre[];
   homepage: string | null;

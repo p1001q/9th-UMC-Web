@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion"; //애니메이션 라�
 import { useState } from "react";
 import axios from "axios";
 import NavigationButtons from "../components/NavigationButtons";
+import { useNavigate } from "react-router-dom";
+
 
 //강사님 스타일: 스키마 객체 레벨에서 비번 일치 검증
 const schema = z
@@ -73,6 +75,9 @@ const SignupPage = () => {
     password === passwordCheck;
   const isNameValid = name.trim().length > 0;
 
+  //회원가입 후 홈 이동용
+  const navigate = useNavigate();
+  
   //회원가입 처리
   const onSubmit: SubmitHandler<FormFields> = async (data) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -82,6 +87,7 @@ const SignupPage = () => {
       console.log(response);
       //성공 시 (여기선 홈 이동 로직 가능)
       alert("회원가입이 완료되었습니다!");
+      navigate("/"); // ✅ 회원가입 성공 시 홈으로 이동
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const message =

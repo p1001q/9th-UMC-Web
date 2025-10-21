@@ -23,9 +23,13 @@ const handleSubmit = async() => {
     console.log(response);
     //localStorage.setItem("accessToken", response.data.accessToken); >  훅으로 대체
     setItem(response.data.accessToken);
-  } catch (error) {
-    alert(error?.message);
+  } catch (error: unknown) { //에러 안 뜨게 수정
+  if (error instanceof Error) {
+    alert(error.message);
+  } else {
+    alert("알 수 없는 오류가 발생했습니다.");
   }
+}
 };
 
     
