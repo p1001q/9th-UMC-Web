@@ -7,6 +7,7 @@ import SignupPage from "./pages/SignupPage.tsx";
 import MyPage from "./pages/MyPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import ProtectedLayout from "./layouts/ProtectedLayout.tsx";
+import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage.tsx";
 
 // 1. 라우터 생성
 // 2. 페이지 연결
@@ -21,7 +22,9 @@ const publicRoutes: RouteObject[] = [
       { index: true, element: <HomePage /> },
       { path: "login", element: <LoginPage /> },
       { path: "signup", element: <SignupPage /> },
-    ],
+      { path: "v1/auth/google/callback", element: <GoogleLoginRedirectPage /> },
+      //v3/signin/accountchooser"
+    ], 
   },
 ];
 
