@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "compilerOptions": {
     "target": "es2016", // ECMAScript 2016으로 컴파일
     "module": "ES2015", // ES2015 모듈 시스템 사용
@@ -18,11 +17,3 @@
     "noUncheckedIndexedAccess": true // 인덱스 접근 시 체크되지 않은 경우 에러 발생
   }
 }
-=======
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
-}
->>>>>>> 1b0ce6b ([Week03] 실습1 - 리액트 라우터 없이 SPA 제작 완료)
