@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
+    const { accessToken }: { accessToken: string | null } = useAuth();
+
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
       <div className="flex items-center justify-between p-4">
@@ -11,18 +14,23 @@ const Navbar = () => {
           SpinningSpinning Dolimpan
         </Link>
         <div className="space-x-6">
-          <Link
+            {accessToken && (
+            <>
+            <Link
             to="/login"
             className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
-          >
+            >
             로그인
-          </Link>
-          <Link
+            </Link>
+            
+            <Link
             to="/signup"
             className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
-          >
+            >
             회원가입
-          </Link>
+            </Link>
+            </>
+            )}
         </div>
       </div>
     </nav>
