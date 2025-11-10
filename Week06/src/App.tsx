@@ -8,7 +8,8 @@ import MyPage from "./pages/MyPage.tsx";
 import { AuthProvider } from "./context/AuthContext.tsx";
 import ProtectedLayout from "./layouts/ProtectedLayout.tsx";
 import GoogleLoginRedirectPage from "./pages/GoogleLoginRedirectPage.tsx";
-
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'; //6주차
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'; //6주차
 // 1. 라우터 생성
 // 2. 페이지 연결
 // 3. 최종 App 컴포넌트에 적용
@@ -47,11 +48,16 @@ const router = createBrowserRouter(
   [...publicRoutes, ...protectedRoutes],
 );
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <AuthProvider>
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider> {/* 로그인 인증 context */}
+        <RouterProvider router={router} /> {/* React Router */}
+         <ReactQueryDevtools initialIsOpen={false} />
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
