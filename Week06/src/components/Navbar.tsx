@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
     const { accessToken }: { accessToken: string | null } = useAuth();
+    console.log("Navbar accessToken:", accessToken);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
@@ -31,6 +32,21 @@ const Navbar = () => {
             </Link>
             </>
             )}
+                   {accessToken && (
+            <Link
+            to={"/my"}
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
+            >
+            마이페이지
+            </Link>
+        )}
+
+        <Link
+            to={"/search"}
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
+            >
+            찾기
+        </Link>
         </div>
       </div>
     </nav>
