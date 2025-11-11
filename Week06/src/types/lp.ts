@@ -24,4 +24,6 @@ export type ResponseLpListDto = CursorBasedResponse<{
     tags: Tag[];
     likes: Likes[];
   }[];
+    nextCursor: number | null;  // 🔥 추가
+  hasNext: boolean;           // 🔥 추가
 }>;

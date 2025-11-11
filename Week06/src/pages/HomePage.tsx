@@ -1,35 +1,70 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useGetLpList from "../hooks/queries/useGetLpList.ts";
 import { PAGINATION_ORDER } from "../types/common.ts";
-import LPCard from "../components/LPCard.tsx"; // 새로 만든 카드 컴포넌트 import
+import LPCard from "../components/LPCard.tsx";
+import SkeletonCard from "../components/SkeletonCard.tsx"; // ⭐ 스켈레톤 추가
 
 const HomePage = () => {
-  // 최신순, 오래된순 상태 관리
-   const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc); //아니 이넘 왜 쓰는거 > 오타 방지, 유지보수
-  //const [order, setOrder] = useState("desc"); // 최신순(default)
+  const [order, setOrder] = useState<PAGINATION_ORDER>(PAGINATION_ORDER.desc);
 
   const toggleOrder = () => {
-    setOrder((prev) => 
-      prev === PAGINATION_ORDER.desc 
-    ? PAGINATION_ORDER.asc 
-    : PAGINATION_ORDER.desc
+    setOrder((prev) =>
+      prev === PAGINATION_ORDER.desc
+        ? PAGINATION_ORDER.asc
+        : PAGINATION_ORDER.desc
     );
-  }
-    const { data, isPending, isError, } = useGetLpList({
-    cursor: 0,
+  };
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isPending,
+    isError,
+  } = useGetLpList({
     search: "",
     order,
     limit: 10,
   });
 
-  if (isPending) { return <div className={"mt-20"}>로딩 중...</div>; }
-  if (isError) { return <div className={"mt-20"}>에러가 발생했습니다.</div>;}
+  const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  console.log("📦 LP 목록 데이터:", data?.data?.data);
+  useEffect(() => {
+    if (!loadMoreRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasNextPage, fetchNextPage]);
+
+  //⭐ 페이지 전체 로딩 시 (맨 처음)
+  if (isPending) {
+    return (
+      <div className="mt-10 px-6 grid grid-cols-3 gap-4">
+        {Array.from({ length: 9 }).map((_, i) => (
+          <SkeletonCard key={i} />
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) return <div className="mt-20">에러가 발생했습니다.</div>;
+
+  //⭐ 여러 페이지의 데이터를 하나로 합침
+  const allLps = data?.pages.flatMap((page) => page.data.data) ?? [];
+
+ console.log("📦 LP 목록 데이터:", allLps);
   console.log("🟢 로딩 상태:", isPending ? "로딩 중" : "로딩 완료");
   console.log("🔴 에러 발생 여부:", isError ? "에러 있음" : "정상 작동");
-  console.log ("📦 LP ID:",data?.data.data.map((lp)=>lp.id));
-  
+  console.log("📦 LP ID:", allLps.map((lp) => lp.id));
+
   return (
     <div className="mt-10 px-6">
       {/* 🔁 정렬 토글 버튼 */}
@@ -44,16 +79,29 @@ const HomePage = () => {
 
       {/* 🧱 LP 카드 목록 */}
       <div className="grid grid-cols-3 gap-4">
-        {data?.data?.data?.map((lp) => (
+        {allLps.map((lp) => (
           <LPCard
             key={lp.id}
             id={lp.id}
             title={lp.title}
-            thumbnail={lp.thumbnail}      // ✅ thumbnail 추가
+            thumbnail={lp.thumbnail}
             createdAt={lp.createdAt}
             likes={lp.likes.length}
           />
         ))}
+
+        {/* ⭐ 다음 페이지 로딩 중이면 하단에 스켈레톤 카드 표시 */}
+        {isFetchingNextPage &&
+          Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={`s-${i}`} />)}
+      </div>
+
+      {/* 🔽 무한 스크롤 트리거 */}
+      <div ref={loadMoreRef} className="h-10 flex justify-center items-center mt-6 text-gray-500">
+        {isFetchingNextPage
+          ? "불러오는 중..."
+          : hasNextPage
+          ? "↓ 스크롤하면 더보기"
+          : "모든 데이터를 불러왔습니다."}
       </div>
     </div>
   );
