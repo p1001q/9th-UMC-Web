@@ -1,38 +1,13 @@
-import { useNavigate } from "react-router-dom";
+import useGetLpList from "../hooks/queries/useGetLpList.ts";
 
 const HomePage = () => {
-  const navigate = useNavigate();
+  const { data, isPending, isError, } = useGetLpList({});
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-dvh bg-gray-50">
-      {/* 제목 */}
-      <h1 className="text-2xl font-bold mb-10">홈페이지</h1>
-
-      {/* 버튼 그룹 */}
-      <div className="flex flex-col gap-4 w-[200px]">
-        <button
-          onClick={() => navigate("/signup")}
-          className="bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-md font-medium transition-colors"
-        >
-          회원가입
-        </button>
-
-        <button
-          onClick={() => navigate("/login")}
-          className="bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-md font-medium transition-colors"
-        >
-          로그인
-        </button>
-
-        <button
-          onClick={() => navigate("/my")}
-          className="bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-md font-medium transition-colors"
-        >
-          마이페이지
-        </button>
-      </div>
-    </div>
-  );
+  console.log("📦 LP 목록 데이터:", data?.data?.data);
+  console.log("🟢 로딩 상태:", isPending ? "로딩 중" : "로딩 완료");
+  console.log("🔴 에러 발생 여부:", isError ? "에러 있음" : "정상 작동");
+  console.log ("📦 LP ID:",data?.data.data.map((lp)=>lp.id));
+  return <div> {data?.data.data.map((lp) => <h1 key={lp.id}>{lp.title}</h1>)}</div>
 };
 
 export default HomePage;

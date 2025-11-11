@@ -1,9 +1,31 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
+import { useEffect, useState } from "react";
+import { getMyInfo } from "../apis/auth.ts";
+import type { ResponseMyInfoDto } from "../types/auth.ts";
+
 const Navbar = () => {
-    const { accessToken }: { accessToken: string | null } = useAuth();
-    console.log("Navbar accessToken:", accessToken);
+  const { accessToken } = useAuth();
+  const [data, setData] = useState<ResponseMyInfoDto>(
+    [] as unknown as ResponseMyInfoDto
+  );
+  console.log("Navbar accessToken:", accessToken);
+  console.log("Navbar user:", data.data?.name);
+
+    useEffect(() => {
+    if (accessToken) {
+      const fetchData = async () => {
+        try {
+          const res = await getMyInfo();
+          setData(res);
+        } catch (err) {
+          console.error("유저 정보 불러오기 실패:", err);
+        }
+      };
+      fetchData();
+    }
+  }, [accessToken]);
 
   return (
     <nav className="bg-white dark:bg-gray-900 shadow-md fixed w-full z-10">
@@ -15,7 +37,7 @@ const Navbar = () => {
           SpinningSpinning Dolimpan
         </Link>
         <div className="space-x-6">
-            {accessToken && (
+            {!accessToken && (
             <>
             <Link
             to="/login"
@@ -32,13 +54,22 @@ const Navbar = () => {
             </Link>
             </>
             )}
-                   {accessToken && (
-            <Link
-            to={"/my"}
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
-            >
-            마이페이지
-            </Link>
+            
+            {accessToken && (
+            <>
+              {/* ✅ 이름 기반 환영 문구 */}
+              <span className="text-gray-700 dark:text-gray-300">
+                {data?.data?.name
+                  ? `${data.data.name}님 반갑습니다.`
+                  : "반갑습니다."}
+              </span>
+              <Link
+                to="/my"
+                className="text-gray-700 dark:text-gray-300 hover:text-blue-500"
+              >
+                마이페이지
+              </Link>
+            </>
         )}
 
         <Link

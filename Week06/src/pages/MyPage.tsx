@@ -3,6 +3,7 @@ import { getMyInfo } from "../apis/auth.ts";
 import type { ResponseMyInfoDto } from "../types/auth.ts";
 import { useAuth } from "../context/AuthContext.tsx";
 import { useNavigate } from "react-router-dom";
+import Navbar from "../components/Navbar.tsx";
 
 const MyPage = () => {
   const navigate = useNavigate();
@@ -28,6 +29,11 @@ const MyPage = () => {
   console.log(data?.data?.name);
   return (
     <div>
+    <Navbar />
+    <div>
+      <h1> ddd </h1>
+      <h1>  ddd</h1>
+      <h1>  sss</h1>
       <h1>{data?.data?.name}님의 Mypage</h1>
       <img src={data?.data?.avatar as string || "이미지가 깨졌습니다."} alt="구글 로고" />
        <h1>이메일: {data?.data?.email}</h1>
@@ -39,6 +45,7 @@ const MyPage = () => {
           로그아웃
           </button>
        </div>
+    </div>
       )
 };
 

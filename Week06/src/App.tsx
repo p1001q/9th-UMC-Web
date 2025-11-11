@@ -55,8 +55,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider> {/* 로그인 인증 context */}
         <RouterProvider router={router} /> {/* React Router */}
-         <ReactQueryDevtools initialIsOpen={false} />
-      </AuthProvider>
+        </AuthProvider>
+      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />} {/*개발환경일때만 보여지게, PROD(배포)환경에선 안 보임*/}
     </QueryClientProvider>
   );
 }
