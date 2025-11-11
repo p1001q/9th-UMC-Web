@@ -24,3 +24,5 @@ export type PaginationDto = {
 }
 
 
+export { PAGINATION_ORDER };
+
