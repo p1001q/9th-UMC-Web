@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDebounce } from "../hooks/useDebounce";
+import { Link } from "react-router-dom";  // ⬅ 추가
 
 const dummy = [
   "사과",
@@ -52,6 +53,15 @@ export default function TestDebouncePage() {
   return (
     <div className="p-10">
       <h1 className="text-xl font-bold mb-4">Debounce 테스트</h1>
+
+      
+    {/* 🟦 여기에 스로틀 페이지로 이동 버튼 추가 */}
+    <Link
+      to="/test-throttle"
+      className="inline-block mb-4 px-4 py-2 bg-blue-500 text-white rounded"
+    >
+      👉 Throttle 테스트 페이지로 이동
+    </Link>
 
       <input
         className="border p-2 w-full"
