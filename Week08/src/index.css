@@ -1,3 +1,6 @@
+@import "tailwindcss";
+/*위는 테일윈드 v4 아래는 v3 
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
+@tailwind utilities; 
+바보같이 v3 버전으로 해놓고 삽질함 */

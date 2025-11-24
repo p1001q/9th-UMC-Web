@@ -73,22 +73,22 @@ export default function TestThrottlePage() {
           <InfoBox scrollY={scrollY} throttledScrollY={throttledScrollY} />
         </div>
 
-        <div className="h-[600px] bg-purple-200 text-white flex flex-col items-center justify-center text-2xl font-bold">
+        <div className="h-[600px] bg-purple-200 flex flex-col items-center justify-center text-2xl font-bold">
           영역 5
           <InfoBox scrollY={scrollY} throttledScrollY={throttledScrollY} />
         </div>
 
-        <div className="h-[600px] bg-purple-200 text-white flex flex-col items-center justify-center text-2xl font-bold">
+        <div className="h-[600px] bg-purple-200 flex flex-col items-center justify-center text-2xl font-bold">
           영역 6
           <InfoBox scrollY={scrollY} throttledScrollY={throttledScrollY} />
         </div>
 
-        <div className="h-[600px] bg-purple-200 text-white flex flex-col items-center justify-center text-2xl font-bold">
+        <div className="h-[600px] bg-purple-200 flex flex-col items-center justify-center text-2xl font-bold">
           영역 7
           <InfoBox scrollY={scrollY} throttledScrollY={throttledScrollY} />
         </div>
 
-        <div className="h-[600px] bg-purple-200 text-white flex flex-col items-center justify-center text-2xl font-bold">
+        <div className="h-[600px] bg-purple-200 flex flex-col items-center justify-center text-2xl font-bold">
           영역 8
           <InfoBox scrollY={scrollY} throttledScrollY={throttledScrollY} />
         </div>
