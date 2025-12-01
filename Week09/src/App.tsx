@@ -4,6 +4,7 @@ import CartList from './components/CartList'
 import { Provider } from 'react-redux'
 import store from './store/store'
 import PriceBox from './components/PriceBox'
+import Modal from './components/modal'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
     <Navbar />
     <CartList />
     <PriceBox />
+    <Modal />
     </Provider>
   )
 }
