@@ -1,27 +1,32 @@
-import { useDispatch } from "../hooks/useCustomRedux";
-import { increase, decrease, removeItem } from "../slices/cartSlice";
 import type { Lp } from "../types/cart";
-
+import { useCartActions } from "../hooks/useCartStore";
+// import { useDispatch } from "../hooks/useCustomRedux";   // Redux → Zustand로 변경
+// import { increase, decrease, removeItem } from "../slices/cartSlice";
 interface CartItemProps {
   lp: Lp;
 }
 
 const CartItem = ({ lp }: CartItemProps) => {
-    const dispatch = useDispatch();
+  const { increase, decrease, removeItem } = useCartActions();
 
-    const handleIncreaseCount = () => {
-        // 수량 증가
-        dispatch(increase({ id: lp.id }));
-    };
-    const handleDecreaseCount = () => {
-        // 수량 감소
-        if (lp.amount === 1) {
-            dispatch(removeItem({ id: lp.id }));
-            return; 
-        }
+  // ++ 수량 증가
+  const handleIncreaseCount = (): void => {
+    increase(lp.id); 
+    // 기존 Redux: dispatch(increase({ id: lp.id }))
+  };
 
-        dispatch(decrease({ id: lp.id }));
-    };  
+  // -- 수량 감소
+  const handleDecreaseCount = (): void => {
+    if (lp.amount === 1) {
+      removeItem(lp.id);
+      // 기존 Redux: dispatch(removeItem({ id: lp.id }))
+      return;
+    }
+
+    decrease(lp.id);
+    // 기존 Redux: dispatch(decrease({ id: lp.id }))
+  };
+
 
   return (
     <div className="flex items-center p-4 border-b border-gray-200">

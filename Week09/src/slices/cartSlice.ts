@@ -77,9 +77,11 @@ calculateTotals: (state) => {
   },
 });
 
+//액션을 내보내준다
 export const { increase, decrease, removeItem, clearCart, calculateTotals } = cartSlice.actions
 
 // duck pattern: reducer를 export default로 내보내야 함.
 const cartReducer = cartSlice.reducer;
 
+//리듀서를 내보내준다
 export default cartReducer;
