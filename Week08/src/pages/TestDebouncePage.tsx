@@ -4,16 +4,36 @@ import { Link } from "react-router-dom";
 import { useSidebar } from "../hooks/useSidebar";
 import Sidebar from "../components/Sidebar";
 import SidebarButton from "../components/SidebarButton";
+//import { axiosInstance } from "../api/axios"; > 왜 지피티는 인스턴스를 임포트 할까
+import axios from "axios";
 
+type LpItem = {
+  id: number;
+  title: string;
+  content: string;
+  thumbnail: string;
+  published: boolean;
+  authorId: number;
+  createdAt: string;
+  updatedAt: string;
+  tags: { id: number; name: string }[];
+  likes: { id: number; userId: number; lpId: number }[];
+};
+
+/* 더미 데이터 잠시 보관
 const dummy = [
   "사과", "바나나", "오렌지", "포도", "딸기",
   "키위", "수박", "참외", "파인애플", "레몬",
   "라임", "복숭아", "자두", "멜론", "코코넛",
   "아보카도", "블루베리", "라즈베리", "크랜베리",
 ];
+*/
 
 export default function TestDebouncePage() {
   const [query, setQuery] = useState("");
+  // 추가
+  const [results, setResults] = useState<LpItem[]>([]);
+  //const [loading, setLoading] = useState(false);
 
   // ⭐ 사이드바 커스텀 훅
   const { isOpen, toggle, close } = useSidebar();
@@ -24,6 +44,7 @@ export default function TestDebouncePage() {
     500
   );
 
+  /*
   // 🔥 공백(null)일 때는 배열 비우기
   const filtered =
     debouncedQuery === null
@@ -31,6 +52,40 @@ export default function TestDebouncePage() {
       : dummy.filter((item) =>
           item.toLowerCase().includes(debouncedQuery.toLowerCase())
         );
+        */
+  
+        //공백 시 배열 비우기
+        useEffect(() => {
+          //로딩값을 트루로 바꾸고 겟요청으로 api 호출
+          const fetchData = async () => {
+            if (debouncedQuery === null) {
+              setResults([]);
+              return;
+            }
+            try {
+              const { data } = await axios.get("http://localhost:8000/v1/lps", {
+                params: {
+                  cursor: 0,
+                  limit: 10,
+                  search: debouncedQuery,
+                  order: "asc",
+                },
+              });
+            //첫 번째 data는 axios 응답, 
+            //두 번째 data는 API 응답 
+            //세번째 data는 실제 LP 리스트?
+            console.log("API 응답 데이터1:", data);
+            console.log("API 응답 데이터2:", data.data);
+            console.log("API 응답 데이터3:", data.data.data);
+              setResults(data.data.data); // LP 리스트
+            } catch (err) {
+              console.error("API 오류:", err);
+            }
+          };
+  fetchData();
+}, [debouncedQuery]);
+
+
 
   // 입력 즉시 로그
   console.log("🟡 입력 즉시 실행:", query);
@@ -75,9 +130,10 @@ export default function TestDebouncePage() {
 
         {/* 결과 */}
         <div className="mt-5 space-y-2">
-          {filtered.map((item) => (
-            <div key={item} className="p-2 border rounded">
-              {item}
+          {results.map((lp) => (
+            <div key={lp.id} className="p-2 border rounded">
+              <p className="font-bold">{lp.title}</p>
+              <p className="text-sm">{lp.content}</p>
             </div>
           ))}
         </div>
