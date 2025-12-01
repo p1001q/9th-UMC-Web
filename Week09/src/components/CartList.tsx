@@ -1,4 +1,4 @@
-import { useCartActions, useCartInfo } from "../hooks/useCartStore";
+import { useCartInfo } from "../hooks/useCartStore";
 // import { useSelector } from "../hooks/useCustomRedux";  // Redux → Zustand로 대체됨
 import CartItem from "./CartItem";
 // import React from "react";  // 필요 없음 (JSX 자동 import)
@@ -10,11 +10,10 @@ const CartList = () => {
 
   // Zustand 방식
   const { cartItems } = useCartInfo();       // Zustand 전역 상태
-  const { clearCart } = useCartActions();    // 전체 삭제 버튼용 액션
-
-  const handleAllClearButton = (): void => {
-    clearCart();  // Zustand로 전체 삭제
-  };
+  //const { clearCart } = useCartActions();    // 전체 삭제 버튼용 액션
+  // const handleAllClearButton = (): void => {
+  //   clearCart();  // Zustand로 전체 삭제
+  // };
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -29,13 +28,15 @@ const CartList = () => {
           <CartItem key={index} lp={item} />
         ))}
       </ul>
-
-      <button
-        onClick={handleAllClearButton}
-        className="p-4 border rounded-md my-10"
-      >
-        전체 삭제
-      </button>
+{
+      //Price Box 안에 삭제(모달창 구현) 버튼으로 대체
+      // <button
+      //   onClick={handleAllClearButton}
+      //   className="p-4 border rounded-md my-10"
+      // >
+      //   전체 삭제
+      // </button>
+}
     </div>
   );
 };

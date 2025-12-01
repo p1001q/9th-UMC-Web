@@ -20,6 +20,19 @@ interface CartState {
     actions: CartActions;
 }
 
+// Zustand store 안에 추가해줘야 함
+interface ModalState {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+}
+
+export const useModalStore = create<ModalState>((set) => ({
+  isOpen: false,
+  openModal: () => set({ isOpen: true }),
+  closeModal: () => set({ isOpen: false }),
+}));
+
 export const useCartStore = create<CartState>()(
     /* eslint-disable @typescript-eslint/no-unused-vars */
     immer((set, _) => ({
